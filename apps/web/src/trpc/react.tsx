@@ -31,15 +31,16 @@ const getQueryClient = () => {
   }
 };
 
-export const { useTRPC, TRPCProvider } = createTRPCContext<AppRouter>();
-export const { Provider, createClient, ...api } = createTRPCReact<AppRouter>();
+export const { useTRPC, TRPCProvider } = createTRPCContext<AppRouter>(); // Working
+export const { Provider, createClient, ...api } = createTRPCReact<AppRouter>(); // Not working
 
 export function TRPCReactProvider(props: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
   const [trpcClient] = useState(() =>
     createClient({
-      // createTRPCClient<AppRouter>({
+      // correctly extract trpcClient in both cases, I think?
+      // createTRPCClient<AppRouter>({ // Not working in both cases
       links: [
         loggerLink({
           enabled: (op) =>
