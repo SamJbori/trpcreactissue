@@ -7,7 +7,12 @@ import { trpc } from "~/trpc/react";
 export default function HomePage() {
   // const trpc = useTRPC();
   // const { data } = useQuery(trpc.post.getMessage.queryOptions());
-  const { data } = trpc.post.getMessage.useQuery();
+  const { data, refetch } = trpc.post.getMessage.useQuery();
 
-  return <div>{data}</div>;
+  return (
+    <div>
+      {data}
+      <button onClick={() => refetch()}>Refresh</button>
+    </div>
+  );
 }
