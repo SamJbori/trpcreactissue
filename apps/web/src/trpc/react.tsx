@@ -12,7 +12,7 @@ import {
   // createTRPCClient,
   createTRPCReact,
 } from "@trpc/react-query";
-import { createTRPCContext } from "@trpc/tanstack-react-query";
+// import { createTRPCContext } from "@trpc/tanstack-react-query";
 import SuperJSON from "superjson";
 
 import type { AppRouter } from "@acme/api";
@@ -31,8 +31,11 @@ const getQueryClient = () => {
   }
 };
 
-export const { useTRPC, TRPCProvider } = createTRPCContext<AppRouter>(); // Working
-export const { Provider, createClient, ...api } = createTRPCReact<AppRouter>(); // Not working
+// export const { useTRPC, TRPCProvider } = createTRPCContext<AppRouter>(); // Working
+// export const { Provider, createClient, ...api } = createTRPCReact<AppRouter>(); // Not working
+
+export const trpc = createTRPCReact<AppRouter>(); // Not working
+export const { Provider, createClient } = trpc;
 
 export function TRPCReactProvider(props: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
@@ -62,9 +65,9 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+      <Provider client={trpcClient} queryClient={queryClient}>
         {props.children}
-      </TRPCProvider>
+      </Provider>
     </QueryClientProvider>
   );
 }
